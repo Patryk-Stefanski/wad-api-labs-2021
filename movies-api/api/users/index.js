@@ -17,10 +17,14 @@ router.post('/',asyncHandler( async (req, res, next) => {
     if (!req.body.username || !req.body.password) {
       res.status(401).json({success: false, msg: 'Please pass username and password.'});
     }
-    if (req.query.action === 'register') {
+    const regex = new RegExp('^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}$')
+    if (req.query.action === 'register' && regex.test(req.body.password)==false) {
       await User.create(req.body).catch(next);
       res.status(201).json({code: 201, msg: 'Successful created new user.'     });
     } else {
+        if(regex.test(req.body.password)==true){
+            res.status(401).json({code: 401,msg: 'Incorrect Password Format'})
+        }
       const user = await User.findByUserName(req.body.username).catch(next);
         if (!user) return res.status(401).json({ code: 401, msg: 'Authentication failed. User not found.' });
         user.comparePassword(req.body.password, (err, isMatch) => {
@@ -54,7 +58,13 @@ router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     const userName = req.params.userName;
     const movie = await movieModel.findByMovieDBId(newFavourite);
     const user = await User.findByUserName(userName);
+    const movieRegex = new RegExp(movie._id)
+    if(movieRegex.test(user.favourites)==false){
     await user.favourites.push(movie._id);
+    }
+    else{
+        res.status(404).json({msg: "movie already in favourites"})
+    }
     await user.save(); 
     res.status(201).json(user); 
   }));
