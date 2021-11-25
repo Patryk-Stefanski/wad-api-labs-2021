@@ -3,7 +3,6 @@ import User from './userModel';
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
 
-
 const router = express.Router(); // eslint-disable-line
 
 // Get all users
