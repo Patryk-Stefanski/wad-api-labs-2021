@@ -1,10 +1,12 @@
 import { useContext} from 'react';
 import { MoviesContext } from './moviesContext';
+import { ActorsContext } from './actorsContext';
 import React from 'react';
 
 export const PublicPage = () => {
     return <h2>Public page</h2>
  }
+ 
  export const Movies = () => {
     const context = useContext(MoviesContext);
     return <>
@@ -14,6 +16,17 @@ export const PublicPage = () => {
         </div>
     </>
 }
+
+export const Actors = () => {
+    const context = useContext(ActorsContext);
+    return <>
+        <h2>Actor Data </h2>
+        <div>
+            {context.actors.results.map(actor => { return <>{actor.id},{actor.name}<br /></> })}
+        </div>
+    </>
+}
+
  export const Profile = () => {
     return <h2>My Profile </h2>
 }

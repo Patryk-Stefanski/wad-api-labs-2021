@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 dotenv.config();
 
 // Connect to database
-mongoose.connect(process.env.MONGO_DB);
+mongoose.connect(process.env.mongoDB);
 const db = mongoose.connection;
 
 db.on('error', (err) => {

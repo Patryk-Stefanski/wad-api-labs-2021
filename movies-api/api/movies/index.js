@@ -1,9 +1,9 @@
 import express from 'express';
-import { movies, movieReviews, movieDetails } from './moviesData';
+import { movieReviews, movieDetails } from './moviesData';
 import uniqid from 'uniqid';
 import movieModel from './movieModel';
 import asyncHandler from 'express-async-handler';
-import { getUpcomingMovies } from '../tmdb-api';
+import { getUpcomingMovies,getMovies } from '../tmdb-api';
 
 const router = express.Router(); 
 router.get('/', asyncHandler(async (req, res) => {
@@ -14,11 +14,11 @@ router.get('/', asyncHandler(async (req, res) => {
     const moviesPromise = movieModel.find().limit(limit).skip((page - 1) * limit);
 
     const totalDocuments = await totalDocumentsPromise; //wait for the above promises to be fulfilled
-    const movies = await moviesPromise;
+    const movies = await getMovies();
 
     const returnObject = { page: page, total_pages: Math.ceil(totalDocuments / limit), total_results: totalDocuments, results: movies };//construct return Object and insert into response object
 
-    res.status(200).json(returnObject);
+    res.status(200).json(movies);
 }));
 
 router.get('/tmdb/upcoming', asyncHandler( async(req, res) => {
