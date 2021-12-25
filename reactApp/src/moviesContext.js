@@ -16,14 +16,16 @@ const MoviesContextProvider = props => {
   const [state, dispatch] = useReducer(reducer, { movies: []});
   const [authenticated, setAuthenticated] = useState(false);
 
+  var page = 6 ;
   useEffect(() => {
-    getMovies().then(result => {
+    getMovies(page).then(result => {
       console.log(result);
       dispatch({ type: "load", payload: {result}});
     });
   },[]);
 
   return (
+    <>
     <MoviesContext.Provider
       value={{
         movies: state.movies,
@@ -32,6 +34,7 @@ const MoviesContextProvider = props => {
     >
       {props.children}
     </MoviesContext.Provider>
+    </>
   );
 };
 

@@ -18,14 +18,26 @@ export const signup = (username, password) => {
     }).then(res => res.json())
 };
 
-export const getMovies = () => {
+export const getMovies = (args) => {
+  const page = args;
     return fetch(
-       '/api/movies',{headers: {
+       `/api/movies/?page=${page}` ,{headers: {
          'Authorization': window.localStorage.getItem('token')
       }
     }
     ).then(res => res.json());
   };
+
+
+export const getMovie = (id) => {
+    return fetch(
+       '/api/movies/:id',{headers: {
+         'Authorization': window.localStorage.getItem('token')
+      }
+    }
+    ).then(res => res.json());
+};
+
   
  export const getActors = () => {
     return fetch(

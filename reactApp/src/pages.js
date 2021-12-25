@@ -1,7 +1,11 @@
 import { useContext} from 'react';
-import { MoviesContext } from './moviesContext';
+import MoviesContextProvider, { MoviesContext } from './moviesContext';
 import { ActorsContext } from './actorsContext';
 import React from 'react';
+import ActorPageTemplate  from "./components/templateActorListPage";
+import MoviePageTemplate from "./components/templateMovieListPage"
+import Pagination from "@material-ui/lab/Pagination"
+import { getMovies } from './api/movie-api';
 
 export const PublicPage = () => {
     return <h2>Public page</h2>
@@ -9,21 +13,31 @@ export const PublicPage = () => {
  
  export const Movies = () => {
     const context = useContext(MoviesContext);
+    const [page, setPage] = React.useState(context.movies.page);
+    const handleChange = (event, value) => {
+        setPage(value);
+        getMovies(page)
+      };
+
     return <>
-        <h2>Movies Data </h2>
-        <div>
-            {context.movies.results.map(movie => { return <>{movie.id},{movie.title}<br /></> })}
-        </div>
+        <MoviePageTemplate
+        title = "Movie Data"
+        movies= {context.movies.results}
+        >
+        </MoviePageTemplate>
+        <Pagination count={context.movies.total_pages} style={{position: 'absolute' , left:'50%',transform:'translate(-50%)'} } page={page} onChange={handleChange}/>
     </>
 }
 
 export const Actors = () => {
     const context = useContext(ActorsContext);
     return <>
-        <h2>Actor Data </h2>
-        <div>
-            {context.actors.results.map(actor => { return <>{actor.id},{actor.name}<br /></> })}
-        </div>
+        <ActorPageTemplate
+        title="Actors Data" 
+        actors={context.actors.results}
+        >
+        </ActorPageTemplate>
+        <Pagination count={context.actors.total_pages} style={{position: 'absolute' , left:'50%',transform:'translate(-50%)'} } page={context.actors.page}/>
     </>
 }
 
