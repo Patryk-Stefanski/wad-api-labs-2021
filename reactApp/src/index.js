@@ -8,6 +8,7 @@ import PrivateRoute from "./privateRoute";
 import AuthHeader from "./authHeader";
 import SignUpPage from "./signUpPage";
 import MovieProvider from "./moviesContext";
+import ActorProvider from "./actorsContext";
 
 const App = () => {
   return (
@@ -31,19 +32,23 @@ const App = () => {
             <Link to="/profile">Profile</Link>
           </li>
         </ul>
-        <MovieProvider>
+        
+        
         <Switch>
+        <MovieProvider>
           <Route path="/public" component={PublicPage} />
           <Route exact path="/" component={HomePage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignUpPage} />
           <PrivateRoute path="/movies" component={Movies} />
-          <PrivateRoute path="/actors" component={Actors} />
+          <ActorProvider>
+        <PrivateRoute path="/actors" component={Actors} />
+        </ActorProvider>
           <PrivateRoute path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
-        </Switch>
         </MovieProvider>
-      </AuthProvider>
+        </Switch>
+             </AuthProvider>
     </BrowserRouter>
   );
 };
