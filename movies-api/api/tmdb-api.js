@@ -44,9 +44,10 @@ export const getMovie = (args) => {
         });
 };
 
-export const getActors = () => {
+export const getActors = (args) => {
+    const  page  = args ;
     return fetch(
-      `https://api.themoviedb.org/3/person/popular?api_key=${process.env.TMDB_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/person/popular?api_key=${process.env.TMDB_KEY}&language=en-US&page=${page}`
     ).then((response) => {
       if (!response.ok) {
         throw new Error(response.json().message);

@@ -15,21 +15,29 @@ const reducer = (state, action) => {
 const MoviesContextProvider = props => {
   const [state, dispatch] = useReducer(reducer, { movies: []});
   const [authenticated, setAuthenticated] = useState(false);
+  const [newPage, setNewPage] = useState(1);
 
-  var page = 6 ;
+
+  const handleChange = (event, value) => {
+    setNewPage(value);
+    console.log(newPage);
+  };
+
   useEffect(() => {
-    getMovies(page).then(result => {
+    getMovies(newPage).then(result => {
       console.log(result);
       dispatch({ type: "load", payload: {result}});
     });
-  },[]);
+  },[newPage]);
 
   return (
     <>
     <MoviesContext.Provider
       value={{
         movies: state.movies,
-        setAuthenticated
+        page : newPage ,
+        setAuthenticated,
+        handleChange
       }}
     >
       {props.children}

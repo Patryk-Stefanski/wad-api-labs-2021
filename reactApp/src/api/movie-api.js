@@ -39,9 +39,10 @@ export const getMovie = (id) => {
 };
 
   
- export const getActors = () => {
+ export const getActors = (args) => {
+   const page = args ;
     return fetch(
-       '/api/actors',{headers: {
+       `/api/actors/?page=${page}`,{headers: {
          'Authorization': window.localStorage.getItem('token')
       }
     }

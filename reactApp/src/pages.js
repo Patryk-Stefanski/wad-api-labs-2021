@@ -5,7 +5,7 @@ import React from 'react';
 import ActorPageTemplate  from "./components/templateActorListPage";
 import MoviePageTemplate from "./components/templateMovieListPage"
 import Pagination from "@material-ui/lab/Pagination"
-import { getMovies } from './api/movie-api';
+import { newPage } from './moviesContext';
 
 export const PublicPage = () => {
     return <h2>Public page</h2>
@@ -13,19 +13,14 @@ export const PublicPage = () => {
  
  export const Movies = () => {
     const context = useContext(MoviesContext);
-    const [page, setPage] = React.useState(context.movies.page);
-    const handleChange = (event, value) => {
-        setPage(value);
-        getMovies(page)
-      };
-
+    
     return <>
         <MoviePageTemplate
         title = "Movie Data"
         movies= {context.movies.results}
         >
         </MoviePageTemplate>
-        <Pagination count={context.movies.total_pages} style={{position: 'absolute' , left:'50%',transform:'translate(-50%)'} } page={page} onChange={handleChange}/>
+        <Pagination count={context.movies.total_pages} style={{position: 'absolute' , left:'50%',transform:'translate(-50%)'} } page={context.page} onChange={context.handleChange}/>
     </>
 }
 
@@ -37,7 +32,7 @@ export const Actors = () => {
         actors={context.actors.results}
         >
         </ActorPageTemplate>
-        <Pagination count={context.actors.total_pages} style={{position: 'absolute' , left:'50%',transform:'translate(-50%)'} } page={context.actors.page}/>
+        <Pagination count={context.actors.total_pages} style={{position: 'absolute' , left:'50%',transform:'translate(-50%)'} } page={context.page} onChange={context.handleChange} />
     </>
 }
 

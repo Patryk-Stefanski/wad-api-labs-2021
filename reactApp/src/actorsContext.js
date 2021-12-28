@@ -15,19 +15,28 @@ const reducer = (state, action) => {
 const ActorsContextProvider = props => {
   const [state, dispatch] = useReducer(reducer, { actors: []});
   const [authenticated, setAuthenticated] = useState(false);
+  const [newPage, setNewPage] = useState(1);
+
+
+  const handleChange = (event, value) => {
+    setNewPage(value);
+    console.log(newPage);
+  };
 
   useEffect(() => {
-    getActors().then(result => {
+    getActors(newPage).then(result => {
       console.log(result);
       dispatch({ type: "load", payload: {result}});
     });
-  },[]);
+  },[newPage]);
 
   return (
     <ActorsContext.Provider
       value={{
         actors: state.actors,
-        setAuthenticated
+        page : newPage,
+        setAuthenticated,
+        handleChange
       }}
     >
       {props.children}
