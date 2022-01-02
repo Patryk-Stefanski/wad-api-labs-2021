@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Redirect, Switch, Link } from "react-router-dom";
-import { PublicPage, Movies, Actors, Profile, HomePage } from "./pages";
+import { PublicPage, Movies, Actors, Profile, HomePage  , MovieDetailsPage } from "./pages";
 import LoginPage from "./loginPage";
 import AuthProvider from "./authContext";
 import PrivateRoute from "./privateRoute";
@@ -9,6 +9,7 @@ import AuthHeader from "./authHeader";
 import SignUpPage from "./signUpPage";
 import MovieProvider from "./moviesContext";
 import ActorProvider from "./actorsContext";
+
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignUpPage} />
           <PrivateRoute path="/movies" component={Movies} />
+          <PrivateRoute path="/movies/:id" component={MovieDetailsPage} />
           <ActorProvider>
         <PrivateRoute path="/actors" component={Actors} />
         </ActorProvider>

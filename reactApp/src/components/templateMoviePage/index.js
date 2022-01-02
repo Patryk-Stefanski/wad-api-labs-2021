@@ -4,9 +4,9 @@ import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
-import { getMovieImages } from "../../api/tmdb-api";
-import { useQuery } from "react-query";
-import Spinner from '../spinner'
+import  {useQuery} from "react" ;
+import { getMovie, getMovieImages } from "../../api/movie-api";
+import { useEffect , useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,28 +20,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TemplateMoviePage = ({ movie, children }) => {
+const TemplateMoviePage = ({ movie ,children }) => {
   const classes = useStyles();
-  const { data , error, isLoading, isError } = useQuery(
-    ["images", { id: movie.id }],
-    getMovieImages
-  );
+  const [images , setImages] = useState([])
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-  const images = data.posters 
+  useEffect(() => {
+    getMovieImages(634649).then(result => {
+      console.log(result);
+      setImages(result);
+    });
+  },[]);
 
   return (
     <>
       <MovieHeader movie={movie} />
 
       <Grid container spacing={5} style={{ padding: "15px" }}>
-        <Grid item xs={3}>
+      <Grid item xs={3}>
           <div className={classes.root}>
             <GridList cellHeight={500} className={classes.gridList} cols={1}>
               {images.map((image) => (
@@ -55,7 +50,6 @@ const TemplateMoviePage = ({ movie, children }) => {
             </GridList>
           </div>
         </Grid>
-
         <Grid item xs={9}>
           {children}
         </Grid>

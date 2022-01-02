@@ -9,7 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import MovieReviews from "../movieReviews"
+import MovieReviews from "../movieReviews";
 
 
 const useStyles = makeStyles((theme) => ({

@@ -29,17 +29,38 @@ export const getMovies = (args) => {
   };
 
 
-export const getMovie = (id) => {
+export const getMovie = (args) => {
+  const id = args ;
     return fetch(
-       '/api/movies/:id',{headers: {
+       `/api/movies/${id}`,{headers: {
          'Authorization': window.localStorage.getItem('token')
       }
     }
     ).then(res => res.json());
 };
 
+
+export const getMovieImages = (id) => {
+  return fetch(
+     `/api/movies/${id}/images`,{headers: {
+       'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  ).then(res => res.json());
+};
+
+
+export const getMovieReviews = (id) => {
+  return fetch(
+     `/api/movies/${id}/reviews`,{headers: {
+       'Authorization': window.localStorage.getItem('token')
+    }
+  }
+  ).then(res => res.json());
+};
+
   
- export const getActors = (args) => {
+export const getActors = (args) => {
    const page = args ;
     return fetch(
        `/api/actors/?page=${page}`,{headers: {
@@ -47,4 +68,27 @@ export const getMovie = (id) => {
       }
     }
     ).then(res => res.json());
-  }; 
+}; 
+
+
+export const getActor = (id) => {
+     return fetch(
+        `/api/actors/:${id}`,{headers: {
+          'Authorization': window.localStorage.getItem('token')
+       }
+     }
+     ).then(res => res.json());
+}; 
+
+
+export const getActorImages = (id) => {
+     return fetch(
+        `/api/actors/:${id}/images`,{headers: {
+          'Authorization': window.localStorage.getItem('token')
+       }
+     }
+     ).then(res => res.json());
+}; 
+
+
+  

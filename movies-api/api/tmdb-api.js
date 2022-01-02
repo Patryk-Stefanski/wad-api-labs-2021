@@ -30,7 +30,7 @@ export const getMovies = (args) => {
 };
 
 export const getMovie = (args) => {
-    const id  = args;
+    const id = args ;
     return fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.TMDB_KEY}`
     ).then((response) => {
@@ -43,6 +43,38 @@ export const getMovie = (args) => {
             throw error
         });
 };
+
+export const getMovieImages = (args) => {
+    const  id  = args;
+    return fetch(
+       `https://api.themoviedb.org/3/movie/${id}/images?api_key=${process.env.TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+  
+    })
+      .catch((error) => {
+        throw error
+      });
+  };
+
+  export const getMovieReviews = (args) => {
+    const  id  = args;
+    return fetch(
+       `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${process.env.TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+  
+    })
+      .catch((error) => {
+        throw error
+      });
+  };
 
 export const getActors = (args) => {
     const  page  = args ;
@@ -58,6 +90,38 @@ export const getActors = (args) => {
         throw error
       });
   };
+
+  export const getActor = (args) => {
+    const id = args;
+    return fetch(
+      `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+    })
+      .catch((error) => {
+        throw error
+      });
+  };
+
+  export const getActorImages = (args) => {
+    const id  = args;
+    return fetch(
+      `https://api.themoviedb.org/3/person/${id}/images?api_key=${process.env.TMDB_KEY}`
+    ).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.json().message);
+      }
+      return response.json();
+  
+    })
+      .catch((error) => {
+        throw error
+      });
+  };
+  
 
 
 
