@@ -8,7 +8,7 @@ import CalendarIcon from "@material-ui/icons/CalendarTodayTwoTone";
 import StarRateIcon from "@material-ui/icons/StarRate";
 import Grid from "@material-ui/core/Grid";
 import CardActions from "@material-ui/core/CardActions";
-import { Link } from "react-router-dom";
+import { Link ,Redirect} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 
 
@@ -47,14 +47,14 @@ export default function MovieCard({ movie, action }) {
             </Typography>
           </Grid>
         </Grid>
-        <CardActions disableSpacing>
-        <Link to={`/movies/id`}>
+      </CardContent>
+      <CardActions disableSpacing>
+        <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
           </Button>
         </Link>
       </CardActions>
-      </CardContent>
     </Card>
   );
 }

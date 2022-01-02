@@ -7,8 +7,13 @@ import MoviePageTemplate from "./components/templateMovieListPage"
 import Pagination from "@material-ui/lab/Pagination"
 import PageTemplate from "./components/templateMoviePage"
 import MovieDetails from "./components/movieDetails"
-import { getMovie } from './api/movie-api';
+import { getActor, getMovie } from './api/movie-api';
 import { useState } from 'react';
+import { useQuery } from "react-query";
+import Spinner from "./components/spinner"
+import { queryClient } from '.';
+import ActorDetails from "./components/actorDetails"
+import ActorTemplatePage from "./components/templateActorPage"
 
 
 
@@ -31,21 +36,31 @@ export const Movies = () => {
 
 export const MovieDetailsPage =  (props) => {
     const { id } = props.match.params
-    var [movie] = useState([])
+    console.log( `${id}` )
 
-    getMovie(634649).then(result => {
-        console.log(result);
-        movie =  result ;
-        console.log(movie.title);
-    });
+    const { data : movie, error, isLoading, isError} = useQuery(
+        ["movie", { id: id }],
+        getMovie
+    );
     
+    
+    console.log(movie);
+      
     return (
-            <>
-              <PageTemplate movie={movie}>
-                <MovieDetails movie={movie} />
-              </PageTemplate>
-            </>
+        <>
+              {movie ? (
+        <>
+          <PageTemplate movie={movie}>
+            <MovieDetails movie={movie} />
+          </PageTemplate>
+        </>
+      ) : (
+        <p>Waiting for movie details</p>
+      )}
+        </>
       );
+
+
 }
 
 export const Actors = () => {
@@ -58,6 +73,35 @@ export const Actors = () => {
         </ActorPageTemplate>
         <Pagination count={context.actors.total_pages} style={{ position: 'absolute', left: '50%', transform: 'translate(-50%)' }} page={context.page} onChange={context.handleChange} />
     </>
+}
+
+
+export const ActorsDetailsPage =  (props) => {
+    const { id } = props.match.params
+    console.log( `${id}` )
+    
+
+
+    const { data : actor, error, isLoading, isError} = useQuery(
+        ["actor", { id: id }],
+        getActor
+    );
+    
+    console.log(actor);
+   
+    return (
+        <>
+        {actor ? (
+            <>
+              <ActorTemplatePage actor={actor}>
+                <ActorDetails actor={actor} />
+              </ActorTemplatePage>
+            </>
+          ) : (
+            <p>Waiting for actor details</p>
+          )}
+        </>
+      );
 }
 
 export const Profile = () => {

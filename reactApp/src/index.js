@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Redirect, Switch, Link } from "react-router-dom";
-import { PublicPage, Movies, Actors, Profile, HomePage  , MovieDetailsPage } from "./pages";
+import { PublicPage, Movies, Actors, Profile, HomePage  , MovieDetailsPage ,ActorsDetailsPage} from "./pages";
 import LoginPage from "./loginPage";
 import AuthProvider from "./authContext";
 import PrivateRoute from "./privateRoute";
@@ -9,10 +9,21 @@ import AuthHeader from "./authHeader";
 import SignUpPage from "./signUpPage";
 import MovieProvider from "./moviesContext";
 import ActorProvider from "./actorsContext";
+import { QueryClientProvider, QueryClient } from "react-query";
 
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 360000,
+      refetchInterval: 360000, 
+      refetchOnWindowFocus: false
+    },
+  },
+});
 
 const App = () => {
   return (
+    <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <AuthProvider>
         <AuthHeader />
@@ -41,10 +52,11 @@ const App = () => {
           <Route exact path="/" component={HomePage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignUpPage} />
-          <PrivateRoute path="/movies" component={Movies} />
-          <PrivateRoute path="/movies/:id" component={MovieDetailsPage} />
+          <PrivateRoute exact path="/movies" component={Movies} />
+          <PrivateRoute exact path="/movies/:id" component={MovieDetailsPage} />
           <ActorProvider>
-        <PrivateRoute path="/actors" component={Actors} />
+        <PrivateRoute exact path="/actors" component={Actors} />
+        <PrivateRoute exact path="/actors/:id" component={ActorsDetailsPage} />
         </ActorProvider>
           <PrivateRoute path="/profile" component={Profile} />
           <Redirect from="*" to="/" />
@@ -52,6 +64,7 @@ const App = () => {
         </Switch>
              </AuthProvider>
     </BrowserRouter>
+    </QueryClientProvider>
   );
 };
 

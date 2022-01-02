@@ -30,17 +30,20 @@ export const getMovies = (args) => {
 
 
 export const getMovie = (args) => {
-  const id = args ;
-    return fetch(
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
+  return fetch(
        `/api/movies/${id}`,{headers: {
          'Authorization': window.localStorage.getItem('token')
       }
     }
-    ).then(res => res.json());
+  ).then(res => res.json());
 };
 
 
-export const getMovieImages = (id) => {
+export const getMovieImages = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
   return fetch(
      `/api/movies/${id}/images`,{headers: {
        'Authorization': window.localStorage.getItem('token')
@@ -71,9 +74,11 @@ export const getActors = (args) => {
 }; 
 
 
-export const getActor = (id) => {
+export const getActor = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
      return fetch(
-        `/api/actors/:${id}`,{headers: {
+        `/api/actors/${id}`,{headers: {
           'Authorization': window.localStorage.getItem('token')
        }
      }
@@ -81,9 +86,11 @@ export const getActor = (id) => {
 }; 
 
 
-export const getActorImages = (id) => {
+export const getActorImages = (args) => {
+  const [, idPart] = args.queryKey;
+  const { id } = idPart;
      return fetch(
-        `/api/actors/:${id}/images`,{headers: {
+        `/api/actors/${id}/images`,{headers: {
           'Authorization': window.localStorage.getItem('token')
        }
      }
